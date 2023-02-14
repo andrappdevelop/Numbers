@@ -1,5 +1,8 @@
 package com.example.numbers.numbers.presentation
 
+import com.example.numbers.numbers.domain.NumberFact
+import com.example.numbers.numbers.domain.NumbersInteractor
+import com.example.numbers.numbers.domain.NumbersResult
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -26,14 +29,14 @@ class NumbersViewModelTest {
         assertEquals(false, communications.progressCalledList[1])
 
         assertEquals(1, communications.stateCalledList.size)
-        assertEquals(UiState.Success(emptyList<NumberFact>()), communications.stateCalledList[0])
+        assertEquals(UiState.Success(emptyList<NumberUi>()), communications.stateCalledList[0])
 
         assertEquals(0, communications.numbersList.size)
         assertEquals(0, communications.timesShowList)
 
         //get some data
         interactor.changeExpectedResult(NumbersResult.Failure("no internet connection"))
-        viewModel.fetchRandomNumberData()
+        viewModel.fetchRandomNumberFact()
 
         assertEquals(true, communications.progressCalledList[2])
 
@@ -62,7 +65,7 @@ class NumbersViewModelTest {
 
         val viewModel = NumbersViewModel(communications, interactor)
 
-        viewModel.fetchFact("")
+        viewModel.fetchNumberFact("")
 
         assertEquals(0, interactor.fetchAboutNumberCalledList.size)
 
@@ -94,7 +97,7 @@ class NumbersViewModelTest {
                 )
             )
         )
-        viewModel.fetchFact("45")
+        viewModel.fetchNumberFact("45")
 
         assertEquals(true, communications.progressCalledList[0])
 
@@ -135,7 +138,7 @@ class NumbersViewModelTest {
 
     private class TestNumbersInteractor : NumbersInteractor {
 
-        private var result: NumbersResult = NumbersResult.Seccess()
+        private var result: NumbersResult = NumbersResult.Success()
 
         val initCalledList = mutableListOf<NumbersResult>()
         val fetchAboutNumberCalledList = mutableListOf<NumbersResult>()
