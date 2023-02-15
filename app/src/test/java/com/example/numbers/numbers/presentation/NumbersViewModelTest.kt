@@ -1,6 +1,9 @@
 package com.example.numbers.numbers.presentation
 
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.example.numbers.numbers.domain.NumberFact
+import com.example.numbers.numbers.domain.NumberUiMapper
 import com.example.numbers.numbers.domain.NumbersInteractor
 import com.example.numbers.numbers.domain.NumbersResult
 import org.junit.Assert.*
@@ -19,7 +22,12 @@ class NumbersViewModelTest {
         val communications = TestNumbersCommunications()
         val interactor = TestNumbersInteractor()
         //1. init
-        val viewModel = NumbersViewModel(communications, interactor)
+        val viewModel =
+            NumbersViewModel(
+                communications,
+                interactor,
+                NumbersResultMapper(communications, NumberUiMapper())
+            )
         interactor.changeExpectedResult(NumbersResult.Success())
         //2. action
         viewModel.init(isFirstRun = true)
@@ -29,7 +37,7 @@ class NumbersViewModelTest {
         assertEquals(false, communications.progressCalledList[1])
 
         assertEquals(1, communications.stateCalledList.size)
-        assertEquals(UiState.Success(emptyList<NumberUi>()), communications.stateCalledList[0])
+        assertEquals(UiState.Success(), communications.stateCalledList[0])
 
         assertEquals(0, communications.numbersList.size)
         assertEquals(0, communications.timesShowList)
@@ -63,7 +71,12 @@ class NumbersViewModelTest {
         val communications = TestNumbersCommunications()
         val interactor = TestNumbersInteractor()
 
-        val viewModel = NumbersViewModel(communications, interactor)
+        val viewModel =
+            NumbersViewModel(
+                communications,
+                interactor,
+                NumbersResultMapper(communications, NumberUiMapper())
+            )
 
         viewModel.fetchNumberFact("")
 
@@ -85,7 +98,12 @@ class NumbersViewModelTest {
         val communications = TestNumbersCommunications()
         val interactor = TestNumbersInteractor()
 
-        val viewModel = NumbersViewModel(communications, interactor)
+        val viewModel =
+            NumbersViewModel(
+                communications,
+                interactor,
+                NumbersResultMapper(communications, NumberUiMapper())
+            )
 
         interactor.changeExpectedResult(
             NumbersResult.Success(
@@ -102,7 +120,7 @@ class NumbersViewModelTest {
         assertEquals(true, communications.progressCalledList[0])
 
         assertEquals(1, interactor.fetchAboutNumberCalledList.size)
-        assertEquals(Number("45", "fact about 45"), interactor.fetchAboutNumberCalledList[0])
+        assertEquals(NumberFact("45", "fact about 45"), interactor.fetchAboutNumberCalledList[0])
 
         assertEquals(2, communications.progressCalledList.size)
         assertEquals(false, communications.progressCalledList[1])
@@ -117,7 +135,7 @@ class NumbersViewModelTest {
     private class TestNumbersCommunications : NumbersCommunications {
 
         val progressCalledList = mutableListOf<Boolean>()
-        val stateCalledList = mutableListOf<Boolean>()
+        val stateCalledList = mutableListOf<UiState>()
         val numbersList = mutableListOf<NumberUi>()
         var timesShowList = 0
 
@@ -125,14 +143,20 @@ class NumbersViewModelTest {
             progressCalledList.add(show)
         }
 
-        override fun showState(state: UiState) {
-            stateCalledList.add(state)
+        override fun showState(uiState: UiState) {
+            stateCalledList.add(uiState)
         }
 
         override fun showList(list: List<NumberUi>) {
             timesShowList++
             numbersList.addAll(list)
         }
+
+        override fun observeProgress(owner: LifecycleOwner, observer: Observer<Boolean>) = Unit
+
+        override fun observeState(owner: LifecycleOwner, observer: Observer<UiState>) = Unit
+
+        override fun observeList(owner: LifecycleOwner, observer: Observer<List<NumberUi>>) = Unit
 
     }
 
@@ -154,7 +178,7 @@ class NumbersViewModelTest {
         }
 
         override suspend fun factAboutNumber(number: String): NumbersResult {
-            fetchAboutNumberCalledList.add()
+            fetchAboutNumberCalledList.add(result)
             return result
         }
 
