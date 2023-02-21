@@ -1,4 +1,6 @@
-package com.example.numbers.numbers.data
+package com.example.numbers.numbers.data.cache
+
+import com.example.numbers.numbers.data.NumberData
 
 interface NumbersCacheDataSource : FetchNumber {
 

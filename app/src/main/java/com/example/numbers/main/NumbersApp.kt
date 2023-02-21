@@ -2,7 +2,7 @@ package com.example.numbers.main
 
 import android.app.Application
 import com.example.numbers.BuildConfig
-import com.example.numbers.numbers.data.CloudModule
+import com.example.numbers.numbers.data.cloud.CloudModule
 
 
 class NumbersApp : Application() {

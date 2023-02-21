@@ -1,5 +1,7 @@
 package com.example.numbers.numbers.data
 
+import com.example.numbers.numbers.data.cache.NumbersCacheDataSource
+import com.example.numbers.numbers.data.cloud.NumbersCloudDataSource
 import com.example.numbers.numbers.domain.NumberFact
 import com.example.numbers.numbers.domain.NumbersRepository
 
