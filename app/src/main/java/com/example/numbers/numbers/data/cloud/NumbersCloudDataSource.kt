@@ -1,4 +1,7 @@
-package com.example.numbers.numbers.data
+package com.example.numbers.numbers.data.cloud
+
+import com.example.numbers.numbers.data.NumberData
+import com.example.numbers.numbers.data.cache.FetchNumber
 
 interface NumbersCloudDataSource : FetchNumber {
 
