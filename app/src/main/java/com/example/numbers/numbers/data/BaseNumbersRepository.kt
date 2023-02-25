@@ -8,8 +8,8 @@ import com.example.numbers.numbers.domain.NumbersRepository
 class BaseNumbersRepository(
     private val cloudDataSource: NumbersCloudDataSource,
     private val cacheDataSource: NumbersCacheDataSource,
-    private val mapperToDomain: NumberData.Mapper<NumberFact>,
-    private val handleDataRequest: HandleDataRequest
+    private val handleDataRequest: HandleDataRequest,
+    private val mapperToDomain: NumberData.Mapper<NumberFact>
 ) : NumbersRepository {
 
     override suspend fun allNumbers(): List<NumberFact> {
