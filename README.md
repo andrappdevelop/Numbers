@@ -1,1 +1,11 @@
-Parsing and repeating the project as training for the modern stack
+Parsing and repeating the project as training for the modern stack:
+-Clean Architecture
+-MVVM
+-Retrofit 2
+-Room
+-OOP
+-TDD
+-Unit test
+-SOLID, KISS, DRY
+-Kotlin Coroutines
+-Kotlin
