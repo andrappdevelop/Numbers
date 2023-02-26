@@ -23,6 +23,11 @@ class NumbersFragment : Fragment() {
     private var showFragment: ShowFragment = ShowFragment.Empty()
 
     private lateinit var viewModel: NumbersViewModel
+    private lateinit var inputEditText: TextInputEditText
+
+    private val watcher = object : SimpleTextWatcher() {
+        override fun afterTextChanged(p0: Editable?) = viewModel.clearError()
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -50,7 +55,7 @@ class NumbersFragment : Fragment() {
         val randomButton = view.findViewById<Button>(R.id.getRandomFactButton)
         val inputLayout = view.findViewById<TextInputLayout>(R.id.textInputLayout)
         val recyclerView = view.findViewById<RecyclerView>(R.id.historyRecyclerView)
-        val inputEditText = view.findViewById<TextInputEditText>(R.id.inputEditText)
+        inputEditText = view.findViewById(R.id.inputEditText)
         val mapper = DetailsUi()
         val adapter = NumbersAdapter(object : ClickListener {
             override fun click(item: NumberUi) {
@@ -59,13 +64,6 @@ class NumbersFragment : Fragment() {
         })
 
         recyclerView.adapter = adapter
-
-        inputEditText.addTextChangedListener(object : SimpleTextWatcher() {
-            override fun afterTextChanged(p0: Editable?) {
-                super.afterTextChanged(p0)
-                viewModel.clearError()
-            }
-        })
 
         factButton.setOnClickListener {
             viewModel.fetchNumberFact(inputEditText.text.toString())
@@ -88,6 +86,16 @@ class NumbersFragment : Fragment() {
 
         viewModel.init(savedInstanceState == null)
 
+    }
+
+    override fun onResume() {
+        inputEditText.addTextChangedListener(watcher)
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        inputEditText.removeTextChangedListener(watcher)
     }
 
     override fun onDetach() {
