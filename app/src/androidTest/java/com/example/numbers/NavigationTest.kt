@@ -8,8 +8,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
-import androidx.test.uiautomator.UiDevice
 import com.example.numbers.main.presentation.MainActivity
 import org.junit.Rule
 import org.junit.Test
@@ -24,7 +22,6 @@ class NavigationTest {
 
     @Test
     fun details_navigation() {
-        val device = UiDevice.getInstance(getInstrumentation())
 
         onView(withId(R.id.inputEditText)).perform(typeText("10"))
         closeSoftKeyboard()
@@ -34,7 +31,8 @@ class NavigationTest {
         onView(withId(R.id.subTitleTextView)).perform(click())
         onView(withId(R.id.textViewDetails)).check(matches(withText("10\n\nfact about 10")))
 
-        device.pressBack()
+        pressBack()
+
         onView(withId(R.id.titleTextView)).check(matches(withText("10")))
         onView(withId(R.id.subTitleTextView)).check(matches(withText("fact about 10")))
     }

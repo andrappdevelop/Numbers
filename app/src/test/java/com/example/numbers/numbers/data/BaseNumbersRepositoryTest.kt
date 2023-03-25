@@ -25,11 +25,12 @@ class BaseNumbersRepositoryTest {
         repository = BaseNumbersRepository(
             cloudDataSource,
             cacheDataSource,
-            mapper,
             HandleDataRequest.Base(
-                cacheDataSource, mapper,
+                cacheDataSource,
+                mapper,
                 HandleDomainError()
-            )
+            ),
+            mapper
         )
     }
 
