@@ -1,5 +1,6 @@
 package com.example.numbers.numbers.domain
 
+import com.example.numbers.details.data.NumberFactDetails
 import com.example.numbers.numbers.presentation.ManageResources
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
@@ -17,10 +18,9 @@ class NumbersInteractorTest {
         manageResources = TestManageResources()
         repository = TestNumbersRepository()
         interactor = NumbersInteractor.Base(
-            repository, HandleRequest.Base(
-                HandleError.Base(manageResources),
-                repository
-            )
+            repository,
+            HandleRequest.Base(HandleError.Base(manageResources), repository),
+            NumberFactDetails.Base()
         )
     }
 

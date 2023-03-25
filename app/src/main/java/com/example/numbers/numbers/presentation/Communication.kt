@@ -3,6 +3,7 @@ package com.example.numbers.numbers.presentation
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.example.numbers.main.presentation.SingleLiveEvent
 
 interface Communication {
 
@@ -36,4 +37,6 @@ interface Communication {
         override fun map(source: T) = liveData.postValue(source)
     }
 
+    abstract class SingleUi<T> : Ui<T>(SingleLiveEvent())
+    abstract class SinglePost<T> : Post<T>(SingleLiveEvent())
 }
