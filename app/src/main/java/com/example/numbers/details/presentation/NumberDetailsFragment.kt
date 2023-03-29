@@ -15,6 +15,6 @@ class NumberDetailsFragment : BaseFragment<NumberDetailsViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val value = viewModel.read()
-        view.findViewById<TextView>(R.id.textViewDetails).text = value
+        view.findViewById<TextView>(R.id.detailsTextView).text = value
     }
 }
