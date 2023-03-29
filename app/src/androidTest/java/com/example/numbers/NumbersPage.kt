@@ -3,6 +3,7 @@ package com.example.numbers
 class NumbersPage : Page() {
 
     val getFactButton = R.id.getFactButton
+    val randomButton = R.id.getRandomFactButton
     val input = R.id.inputEditText
     val recycler = R.id.historyRecyclerView
 
