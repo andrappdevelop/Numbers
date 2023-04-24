@@ -1,4 +1,4 @@
-Parsing and repeating the project as training for the modern stack:
+The project as training for the modern stack:
 -Clean Architecture
 -MVVM
 -Retrofit 2
